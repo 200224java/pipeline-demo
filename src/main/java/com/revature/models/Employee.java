@@ -1,11 +1,11 @@
 package com.revature.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class Employee {
-
+public class Employee implements Serializable {
+	private static final long serialVersionUID = 7320889415176156083L;
+	
 	private int id;
 	private String username;
 	private String password;

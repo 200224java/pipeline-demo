@@ -8,6 +8,11 @@
   <properties>
   	<maven.compiler.source>1.8</maven.compiler.source>
   	<maven.compiler.target>1.8</maven.compiler.target>
+  	
+  	<sonar.projectKey>200224java_pipeline-demo</sonar.projectKey>
+	<sonar.organization>200224java</sonar.organization>
+	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	<sonar.login>0ac75592c5398767064584fe7477142911546170</sonar.login>
   </properties>
   
   <build>

@@ -7,25 +7,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.revature.models.Reimbursement;
 import com.revature.util.ConnectionUtil;
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
 	
-	private static Logger log = LogManager.getLogger(ReimbursementDAOImpl.class);
-
 	@Override
 	public List<Reimbursement> findAll() {
 		List<Reimbursement> all = new ArrayList<>();
 		
+		Statement s = null;
+		ResultSet rs = null;
+		
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
-			Statement s = conn.createStatement();
+			s = conn.createStatement();
 			
-			ResultSet rs = s.executeQuery("SELECT * FROM ERS_REIMBURSEMENT");
+			rs = s.executeQuery("SELECT * FROM ERS_REIMBURSEMENT");
 			
 			while(rs.next()) {
 //				all.add(new Reimbursement(
@@ -37,9 +35,15 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 //						rs.getString(5),
 //						role));
 			}
-		} catch(SQLException e) {
-			log.warn("Failed to find all employees", e);
-			return null;
+		} catch(SQLException | NullPointerException e) {
+			return new ArrayList<>();
+		} finally {
+			try {
+				s.close();
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return all;

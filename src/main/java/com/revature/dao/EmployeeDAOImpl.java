@@ -22,16 +22,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public List<Employee> findAll() {
 		List<Employee> all = new ArrayList<>();
 		
+		Statement s = null;
+		
+		ResultSet rs = null;
+		
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
-			Statement s = conn.createStatement();
+			s = conn.createStatement();
 			
-			ResultSet rs = s.executeQuery("SELECT * FROM ERS_USERS");
+			rs = s.executeQuery("SELECT * FROM ERS_USERS");
 			
 			while(rs.next()) {
-				int role_id = rs.getInt(7);
+				int roleId = rs.getInt(7);
 				Role role;
-				switch(role_id) {
+				switch(roleId) {
 				case 1:
 					role = Role.Employee;
 					break;
@@ -53,7 +57,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			}
 		} catch(SQLException e) {
 			log.warn("Failed to find all employees", e);
-			return null;
+			return new ArrayList<>();
+		} finally {
+			try {
+				s.close();
+				rs.close();
+			} catch (SQLException | NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		System.out.println(all);
