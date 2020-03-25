@@ -40,9 +40,14 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		} finally {
 			try {
 				s.close();
-				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

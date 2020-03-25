@@ -61,9 +61,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		} finally {
 			try {
 				s.close();
-				rs.close();
 			} catch (SQLException | NullPointerException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
